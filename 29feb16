@@ -1,0 +1,30 @@
+x <- NA
+y <-c(x,3,5,x)
+mean(y)
+mean(y,na.rm=T) # na.rm omite los valores NA 
+sqrt(-17)
+sqrt(-17+0i)
+x <- 5/0 # infinito
+x
+exp(x)-exp(x) # inderminacion
+v <- numeric() #vector numerico vacio
+v
+v[3] <- 17
+v
+x1 <- logical(4) #vector logico FALSE de longitud 4
+x4 <- character(4)
+x4 # vector de cacrater de logitud 4
+x<- 1:10
+as.character(x)
+### secuencias seq(from, to, by, lenght)
+seq(from=10, to=25, length=5)
+seq(1,5,by=0.5)
+-1:10/0
+sequence(c(2,3)) #
+x <-1:6
+dim(x) <-c(2,3) #agregamos dimension 
+dimnames <- list(c("fila 1","fila 2"),c("columna 1","columna 2","columna"))
+matriz1 <- matrix(1:12,ncol=3,byrow=T,dimnames =list(letters[1:4],LETTERS[1:3])) #letter letra correspondiente a su posiscion
+matriz1[,c(2,3)]
+#diag extrae diagonal de una matriz
+# col(x) crea un matriz con elemento ij igual al valor i

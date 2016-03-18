@@ -1,0 +1,11 @@
+desc <- sample(3:8,60,replace=T)
+tdesoc <- ts(desc,frequency = 12,star=2010)
+ts.des <- decompose(tdesoc)
+names(ts.des) # names() ver los elementos que contiene
+# trend=tendencia #efecto=estacional #ramdom=error
+plot(ts.des)
+ts.des
+trend <- ts.des$trend # selccionar unicamente la tendencia
+seasonal <- ts.des$trend
+#### para realizar la descomposion tipo multiplicativo
+ts.desmul <- decompose(tdesoc, type="multi")

@@ -1,0 +1,25 @@
+base <- read.csv("amx.csv",header = T)
+#sereie de tiempo
+ts.amx <- ts(base$Close,frequency = 252,start = 2000)
+#modelo aditivo
+amx.adi <- decompose(ts.amx)
+tende.adi <- amx.adi$trend
+esta.adi <- amx.adi$seasonal
+alet.adi <- amx.adi$random
+plot(amx.adi)
+#modelo muliplicativo
+amx.mul <- decompose(ts.amx)
+tende.mul <- amx.mul$trend
+esta.mul <- amx.mul$seasonal
+alet.mul <- amx.mul$random
+plot(amx.mul)
+### graficas 
+ts.plot(cbind(tende.mul,tende.mul*esta.mul),lty=5:2,col=c("orange","blue"))
+### exportar a excel
+tabla <-data.frame(tende.adi,esta.adi,alet.adi)
+tabla2 <- data.frame(tende.mul,esta.mul,alet.mul)
+install.packages("XLConnect") # paquete para leer y guardar dataframes en excel
+library(XLConnect)
+
+writeWorksheetToFile("series.xls", data = list(tabla, tabla2),
+                     sheet = c("aditivo", "multi"))

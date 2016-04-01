@@ -1,0 +1,42 @@
+install.packages("fpp") # sirve para pronosticar
+library(fpp)
+# etsacionalñidad tendencia y NO ciclico
+plot(window(elec,start=1980),ylab="GWh",xlab="Year",main="Australian electricity production")
+# estacionalidad tendencia  y NO ciclico
+plot(bricksq,ylab="million units",xalab="Year",main="Australian clay brick production")
+#estacionalidad ciclico y no muca tendencia
+plot(hsales,main="sales of new one-family houses, USA",ylab="Total sales",xlab="Year")
+
+### 3 ejemplos graficas detectar tendecia, estacionalidad y ciclo
+#elektra, alsea, gruma
+
+#acciones de electra
+elc <- read.csv("ele.csv",header=T) #acciones de electra
+tsele <- ts(elc$Close,start = 2000,frequency = 12)
+#acciones alsea
+alsea <- read.csv("alsea.csv",header=T)
+tsal <- ts(alsea$Close, start = 2000, frequency = 12)
+tsal
+#acciones gruma
+gruma <- read.csv("gruma.csv",header=T)
+tsgru <- ts(gruma$Close, start=2000, frequency = 12)
+##
+#graficas
+
+jpeg(filename = "C:\\Users\\SALA-C8\\Documents\\elecktra.jpg")
+plot(tsele,ylab="precio", xlab="año",main="acciones elecktra")
+#tiene un ciclo cerca del 2012, no presenta una tendencia clara 
+dev.off()
+
+jpeg(filename = "C:\\Users\\SALA-C8\\Documents\\alse.jpg")
+plot(tsal,ylab="precio", xlab="año",main="acciones Alsea")
+# tiene un ciclo se puede apreciar que tiede a subir a despues bajar 
+#y  apartir aproximadamente 2012 se repite el ciclo
+dev.off()
+
+jpeg(filename = "C:\\Users\\SALA-C8\\Documents\\gruma.jpg")
+plot(tsgru,ylab="precio", xlab="año",main="acciones Gruma")
+#tiene una tendencia lineal hasta el año 2010 y despues tiene una tendecia a la alza, sin ciclo, además presenta
+#estacionalidad 
+## gruma podría ser la mejor opcion para invertir
+dev.off()

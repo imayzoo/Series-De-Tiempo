@@ -1,0 +1,115 @@
+###################
+##### 4 Abril #####
+###################
+
+# para busacar estacionalididad con mayor precision usamos la funcion seasionplot de fpp
+library(fpp)
+##estacionlidad 
+seasonplot(st_bimbo, s=12, year.labels = TRUE, main = "acciones Bimbo",ylab = "precio Cierre", col = rainbow(20), year.labels.left = TRUE, pch=19)
+seasonplot(st_cemex, s=12, year.labels = TRUE, main = "acciones Cemex",ylab = "Precio Cierre", col = rainbow(20), year.labels.left = TRUE, pch=19)
+seasonplot(st_gruma, s=12, year.labels = TRUE, main = "acciones Gruma",ylab = "Precio Cierre", col = rainbow(20), year.labels.left = TRUE, pch=19)
+
+# monplot analisis subseries
+monthplot(st_bimbo, main = "acciones Bimbo",ylab = "Precio Cierre", xlab="Mes")
+
+
+##Con varianza y varianza podemos ontener la relación lineal entre dos variables
+##Autocovarianza y autocorrelación es la medida de rekaciionn l0linealentre los valores retardados
+##de una serie de tiempo y. Se mide la relación entr yt y t-1
+##yt y yt-2
+##yt y yt-3
+
+##Para desestacionalizar y eliminar se necesita conocer la correlacion 
+
+###La covarianza es una medida de asociación entre dos variables
+##Cor(x,y)=cov(x,y)\sd(x)sd(y)
+##cov(x,y)= suma(xi-x(media))(yi-y(media)))/(n-1)
+
+###################
+### ejemplo   #####
+###################
+
+View(bimbo)
+x <- bimbo[,2]
+y <- bimbo[,5]
+n <- length(x)
+n
+
+##covarianza
+sum(((x)-mean(x))*(y-mean(y)))/(n-1)
+cov(x,y)
+
+##Correlación
+cor(x,y)
+sd(x)
+b <- (sd(x))*(sd(y))
+a <- cov(x,y)
+a/b
+######################
+##### EJERCICIO ######
+######################
+
+#1) Analizar los años de las tres empresas elegidas (seasonplot) y elegir los 3 años 
+#que ubiquen estacionalidad, ciclo o tendencia, e interpretar datos
+#2) Calcular con la formula y la funcion de covarianza y correlacion en la combinación 
+#de las tres empresas, es decir (x,y), (y,z) y (z,x), para hacerlas compatibles 
+#usar window
+
+#1)
+seasonplot(st_bimbo, s=12, year.labels = TRUE, main = "Valor acciones Bimbo", ylab = "Valor Cierre", col = rainbow(20), year.labels.left = TRUE, pch=19)
+seasonplot(st_cemex, s=12, year.labels = TRUE, main = "Valor acciones Cemex", ylab = "Valor Cierre", col = rainbow(20), year.labels.left = TRUE, pch=19)
+seasonplot(st_gruma, s=12, year.labels = TRUE, main = "Valor acciones Gruma", ylab = "Valor Cierre", col = rainbow(20), year.labels.left = TRUE, pch=19)
+
+##Dado el analisis graficos, podemos notar que existe cierta estacionalidad en los años
+##2007, 2008 y 2009, pues las líneas estan muy cercanas de si, además de que muestran
+##comportamiento similar
+
+#2)
+
+st_bimbo1 <-  window(st_bimbo, start= c(2007,1), end= c(2008,12))
+st_cemex1 <-  window(st_cemex, start= c(2007,1), end= c(2008,12))
+st_gruma1 <-  window(st_gruma, start= c(2007,1), end= c(2008,12))
+
+
+#x=BIMBO, y=CEMEX, z= GRUMA
+x <- st_bimbo1
+y <- st_cemex1
+z <- st_gruma1
+n <- length(x)
+
+# calculo manual
+#Covarianza(X=BIMBO, Y=CEMEX)
+sum(((x)-mean(x))*(y-mean(y)))/(n-1)
+#Covarianza (X=BIMBO, Z=GRUMA )
+sum(((x)-mean(x))*(z-mean(z)))/(n-1)
+#Correlación(X=BIMBO, Y=CEMEX)
+cov(x,y)/(sd(x)*sd(y))
+#Correlación(X=BIMBO, Y=CEMEX)
+cov(x,z)/(sd(x)*sd(z))
+
+# formulas
+#Covarianza(X=BIMBO, Y=CEMEX)
+cov(x,y)
+#Correlación(X=BIMBO, Y=CEMEX)
+cor(x,y)
+#Covarianza (X=BIMBO, Y=CEMEX)
+cov(x,z)
+#Correlación(X=BIMBO, Y=CEMEX)
+cor(x,z)
+
+#
+y <- st_cemex1
+z <- st_gruma1
+n <- length(y)
+
+# calculos manuales
+#Covarianza (Y=CEMEX, Z=GRUMA)
+sum(((z)-mean(z))*(y-mean(y)))/(n-1)
+#Correlación(Z=GRUMA, Y=CEMEX)
+cov(z,y)/(sd(z)*sd(y))
+
+# formulas 
+#Covarianza(Z=GRUMA, Y=CEMEX)
+cov(z,y)
+#Correlación(Z=GRUMA, Y=CEMEX)
+cor(z,y)

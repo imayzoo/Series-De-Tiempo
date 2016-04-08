@@ -1,0 +1,9 @@
+install.packages("Rcmdr")
+library(Rcmdr)
+nflix <- read.csv("table.csv", header = T)
+tsflix <- ts(nflix$Close, start = 2015, frequency = 12)
+tsflix
+plot.ts(tsflix)
+
+xx <- acf(tsflix,"acf mensual netflix")
+xx

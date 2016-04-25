@@ -1,0 +1,55 @@
+       ########################
+#########################################
+######   Metodos sencillos     ##########
+######     para pronosticos    ##########
+#########################################
+install.packages("fpp")
+library(fpp)
+tabla <- read.csv("tasa.csv")
+part <- ts(tabla[,1], start = 2005, frequency=4)
+plot(part)
+acf(part)
+
+#########################################
+##### Metodo de la media pronosticos#####
+#########################################
+
+partpro <- meanf(part,h=4)
+plot(partpro)
+
+#########################################
+#####          Metodo ingenuo       #####
+#########################################
+
+partnai <- naive(part, 4)
+plot(partnai)
+
+
+#########################################
+#####  Metodo ingenuo estacional    #####
+#########################################
+partsnai <- snaive(part,4)
+plot(partsnai)
+
+
+#########################################
+#####  Metodo de la deriva          #####
+#########################################
+
+partder <- rwf(part,4, drift=T)
+plot(partder)
+
+########### ejemplos#####################
+part1 <- window(part,start=2005, end=2010)
+part2 <- window(part,start=2005, end=2011)
+partj1 <- meanf(part1,h=4)
+partj2 <- naive(part1,h=4)
+partj3 <- snaive(part1,h=4)
+
+######### grafica de los 3 metodos
+plot(part, plot.conf=T, main="Proyeccion tasas de desempleo trimestre",xlim=c(2005,2011)) 
+     lines(partj2$mean,col=2)
+     lines(partj3$mean,col=3)
+     lines(partj1$mean, col=4)
+     legend("topleft",lty=1, col=c(1,2,3),
+     legend=c("reales","metdo media","metodo ingenuo","m. ingenuo estacional",""))

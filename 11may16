@@ -1,0 +1,64 @@
+#################################
+#### Serie 1 pib de mexico
+################################
+
+tabla <- read.csv("pib19.csv")
+crecpib <- ts(tabla[,3], start = 1896, end = 2015, frequency = 1)
+pib <- window(crecpib, start=1950, end=2013)
+
+fit1 <- ses(pib, alpha=0.1, initial="simple", h=3)
+fit2 <- ses(pib, alpha=0.3, initial="simple", h=3)
+fit3 <- ses(pib, alpha=0.9,  initial="simple", h=3)
+
+### graficando elm modelo
+## grafica de los datos oroginales y modelos ajustados 
+plot(fit1, plot.conf=FALSE, ylab="PIB%",
+     xlab="Year", main="", fcol="white", type="o")
+lines(fitted(fit1), col="brown", type="o")
+lines(fitted(fit2), col="purple", type="o")
+lines(fitted(fit3), col="red", type="o")
+
+## 
+lines(fit1$mean, col="brown", type="o")
+lines(fit2$mean, col="purple", type="o")
+lines(fit3$mean, col="red", type="o") ## metodo inegnuo
+legend("topleft",lty=5, col=c(1,"blue","red","green"), 
+       c("datos", expression(alpha == 0.1), expression(alpha == 0.1),
+         expression(alpha == 0.9)),pch=10)
+# precision
+accuracy(fit1)
+accuracy(fit2)
+accuracy(fit3)
+
+####################################################
+########### serie 2 tasa de Informalidad laboral
+#####################################################
+base <- read.csv("tasa.csv", header=T)
+base2 <- base[,9]
+inf <- ts(base2,start=2005, frequency = 4)
+inf
+
+### modelos ajustados con el metodo SES
+mod1 <- ses(inf, alpha=0.2, initial="simple", h=3)
+mod2 <- ses(inf, alpha=0.6, initial="simple", h=3)
+mod3 <- ses(inf, h=3) 
+
+## grafica de los datos oroginales y modelos ajustados 
+plot(mod1, plot.conf=FALSE, ylab="Informalidad",
+     xlab="Year", main="", fcol="white", type="o")
+lines(fitted(mod1), col="blue", type="o")
+lines(fitted(mod2), col="red", type="o")
+lines(fitted(mod3), col="green", type="o")
+
+## 
+lines(mod1$mean, col="blue", type="o")
+lines(mod22$mean, col="red", type="o")
+lines(mod3$mean, col="green", type="o")
+legend("topleft",lty=5, col=c(1,"blue","red","green"), 
+       c("data", expression(alpha == 0.0001), expression(alpha == 0.5),
+         expression(alpha == 0.987)),pch=10)
+##
+
+accuracy(mod1)
+accuracy(mod2)
+accuracy(mod3)

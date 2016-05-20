@@ -1,0 +1,87 @@
+#PASJEROS
+install.packages("fpp")
+library(fpp)
+pasa <- AirPassengers # serries con tendiencia positiva
+
+### tasa del tipo de cambio dolar aust. vs dolae us
+abs<-read.csv("rate.csv")
+at <- ts(abs$Erate, start =1969,frequency = 12)
+
+
+#modelo HW aditivo
+pasa.hw.ad <- hw(pasa,seasonal = "additive")
+at.hw.ad <- hw(at,seasonal = "additive")
+
+## modelo HW muliplicativo
+pasa.hw.multi <- hw(pasa,seasonal = "multiplicative")
+hur.hw.mul <- hw(at,seasonal = "multiplicative")
+
+
+### modelo amortiguado aditivo
+
+hur.adi <- holt(at,damped = T,alpha = .3,beta=.1,gamma=.5,h=4)
+pasa.adi <- holt(pasa,damped = T,alpha = .3,beta=.1,gamma=.5,h=4)
+
+### modelo amoritguado multiplcativo
+hur.amul <- holt(at,exponential = T,damped = T,alpha = .3,beta=.1,gamma=.5,h=4)
+pasa.amul <- holt(pasa,exponential = T,damped = T,alpha = .3,beta=.1,gamma=.5,h=4)
+
+## modelo hot-lianel
+hu.hli <- holt(at,alpha = .3,beta=.1, initial = "simple",h=4)
+pasa.hli <- holt(pasa,alpha = .3,beta=.1, initial = "simple",h=4)
+
+
+### modelo hot exponencial
+hu.hex <- holt(at,alpha = .3,beta=.1, initial = "simple",exponential = T, h=4)
+pasa.hex <- holt(pasa,alpha = .3,beta=.1, initial = "simple",exponential = T , h=4)
+
+
+## graficas modelo pasjeros
+plot(pasa, plot.conf=FALSE, ylab="pasajeros aereos",
+     xlab="Año", main="Numero de psajeros de una aerolinea", fcol="white", type="o")
+lines(fitted(pasa.hw.ad), col="brown", type="o")
+lines(fitted(pasa.hex), col="purple", type="o")
+lines(fitted(pasa.hw.multi), col="red", type="o")
+lines(fitted(pasa.hli), col="yellow", type="o")
+lines(fitted(pasa.amul), col="green", type="o")
+lines(fitted(pasa.adi), col="455", type="o")
+
+legend(1,1,lty=5, col=c(1,"brown","purple","red","yellow","green"), 
+       c("datos", "Holt-W aditivo","Holt Exponencial",
+         "Holt multiplicativo","Amortiguado multi","amortiguado adi"),pch=10)
+
+
+## grafica tipo de cambio
+plot(pasa, plot.conf=FALSE, ylab="pasajeros aereos",
+     xlab="Año", main="Numero de psajeros de una aerolinea", fcol="white", type="o")
+lines(fitted(hur.hw.ad), col="brown", type="o")
+lines(fitted(hur.hex), col="purple", type="o")
+lines(fitted(hur.hw.multi), col="red", type="o")
+lines(fitted(hur.hli), col="yellow", type="o")
+lines(fitted(hur.amul), col="green", type="o")
+lines(fitted(hur.adi), col="455", type="o")
+
+legend(1,1,lty=5, col=c(1,"brown","purple","red","yellow","green"), 
+       c("datos", "Holt-W aditivo","Holt Exponencial",
+         "Holt multiplicativo","Amortiguado multi","amortiguado adi"),pch=10)
+
+## accuracy
+a<-accuracy(pasa.hex)
+b<-accuracy(pasa.hw.ad)
+c<-accuracy(pasa.hw.multi)
+d<-accuracy(pasa.hli)
+e<-accuracy(pasa.amul)
+f<-accuracy(pasa.adi)
+gf<- rbind(a,b,c,d,e,f)
+gf
+
+
+## accuracy
+a<-accuracy(hu.hex)
+b<-accuracy(at.hw.ad)
+c<-accuracy(hur.hw.mul)
+d<-accuracy(hu.hli)
+e<-accuracy(hur.amul)
+f<-accuracy(hur.adi)
+gf<- rbind(a,b,c,d,e,f)
+gf

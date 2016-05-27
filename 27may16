@@ -1,0 +1,38 @@
+#1) elijan 1 st
+#2) aplique la funcion auto.arima
+#3) APLIQUE LA FUNCION arima(p,q,d) con 2 modelos  diferentes a los  que arroje la funcion arima
+#4)generarar grafica con los valores reales y los valores ajustados de los 3 modelos
+#5) generar graficaion los valres reales y los valores ajustados y pronosticasos en los 3 modelos -> 4
+library(fpp)
+tsc <-read.csv("tasa.csv")
+infor <- ts(tsc[,9], start =2005, frequency = 4)
+plot(infor)
+mod1 <- auto.arima(infor,seasonal = F)
+mod2 <- Arima(infor, order=c(0,1,2))
+mod3 <- Arima(infor, order=c(0,0,1))
+
+pro1<-forecast(mod1,h=4)
+pro2<-forecast(mod2,h=4)
+pro3<-forecast(mod3,h=4)
+
+plot(infor,plot.conf=FALSE,  ylab="Año",
+     xlab="tasa", main="Tasa de informalidad laboral", xlim=c(2005,2018),fcol="white", type="o")
+lines(fitted(pro1), col="red", type="o")
+lines(fitted(pro2), col="green", type="o")
+lines(fitted(pro3), col="blue", type="o")
+
+# pronosticos
+lines(pro1$mean,col="red", type="o")
+lines(pro2$mean, col="green", type="o")
+lines(pro3$mean, col="blue", type="o")
+
+#legenda}
+legend("topleft",lty=1, col=c(1,"blue","red","green"), 
+              c("data", expression(deso), expression(asal),
+                              expression(til1)),pch=1)
+
+
+
+legend("topleft",lty=1, col=c(1,"blue","red","green"), 
+                c("data", expression(model1), expression(model1),
+                              expression(model3)),pch=1)

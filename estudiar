@@ -30,7 +30,9 @@ rwf(x,4, drift=T) #(toma un promedio en base en el aumento y reducciones de las 
 # ruido blanco (0,0,0)
 # caminata aleatoria
 # autoregresivo arima(p,0,0)
-# promedios moviles (0,0q)
+# promedios moviles (0,0,q)
+# Arima(x,order=c(),seasonal=F)
+Arima(x, seasonal = F)
 
 
 #hw lineal 
@@ -53,3 +55,5 @@ holt(at,exponential = T,damped = T,alpha = .3,beta=.1,gamma=.5,h=4)
 
 # diferencias ST
 diff(infor)
+raiz unitaria = no estacionario
+p-value <0.05

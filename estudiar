@@ -1,0 +1,55 @@
+## igenuo, inge estacional, deriva y media 
+#ingenuo
+naive(object, 4) # ponostica con base en el ultimo valor
+
+#ingenuo estacional 
+snaive(x,h) #Toma el último valor similar al que se va a proyectar
+
+#media
+meanf(x,4) #
+
+#deriva
+rwf(x,4, drift=T) #(toma un promedio en base en el aumento y reducciones de las series de tiempo)
+
+
+####################
+#### SES ##############
+######################
+
+##Pronostica series de tiempo que no tengtan tendencia nio estacionalidad, otorga mayor peso a las observaciones
+##presentes que a las pasadas, alpha debe estar entre 0 y 1
+#ses(object, alpha=, initial="simple",h=)
+
+### accuracy (MAE MAPE RMSE MASE)
+# es mejor el RMSE y MaSE
+
+
+## arima (p,d,q)
+# p orden del modelo de autodiferienciacion auto-regresiva
+## q orden del modelo de media movils
+# ruido blanco (0,0,0)
+# caminata aleatoria
+# autoregresivo arima(p,0,0)
+# promedios moviles (0,0q)
+
+
+#hw lineal 
+holt(at,alpha = .3,beta=.1, initial = "simple",h=4)
+#modelo HW aditivo
+hw(pasa,seasonal = "additive")
+## modelo HW muliplicativo
+hw(pasa,seasonal = "multiplicative")
+# holt winters exponencial
+holt(x,alpha=,beta=, initial = "simple", exponential = T, h)
+#HW lineal, Hw Exponecial son imprecisos a lP
+
+
+
+#amortiguados
+### modelo amortiguado aditivo
+holt(at,damped = T,alpha = .3,beta=.1,gamma=.5,h=4)
+#modelo amoritguado multiplcativo
+holt(at,exponential = T,damped = T,alpha = .3,beta=.1,gamma=.5,h=4)
+
+# diferencias ST
+diff(infor)
